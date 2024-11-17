@@ -7,15 +7,20 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700;
+}
+
+select {
+  @apply block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg shadow-sm focus:outline-none focus:border-blue-300 sm:text-sm;
+}
+
+textarea {
+  @apply block w-full px-3 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg shadow-sm focus:outline-none focus:border-blue-300 sm:text-sm;
 }
