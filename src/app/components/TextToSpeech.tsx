@@ -1,7 +1,14 @@
 import { useState } from 'react';
 
-export default function TextToSpeech() {
-    const [text, setText] = useState('');
+export default function TextToSpeech({
+    text,
+    setText,
+    outputLanguage,
+}: {
+    text: string;
+    setText: React.Dispatch<React.SetStateAction<string>>;
+    outputLanguage: string;
+}) {
     const [isSpeaking, setIsSpeaking] = useState(false);
 
     const toggleSpeak = () => {
@@ -13,12 +20,11 @@ export default function TextToSpeech() {
         if (isSpeaking === true) {
             setIsSpeaking(false);
             window.speechSynthesis.cancel();
-            console.log('ddd');
             return;
         }
 
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
+        utterance.lang = outputLanguage;
         utterance.rate = 1;
         utterance.pitch = 1;
 
@@ -34,7 +40,7 @@ export default function TextToSpeech() {
     };
 
     return (
-        <div className='right-side flex flex-col gap-5'>
+        <div className='flex flex-col gap-5'>
             <h2>Output</h2>
             <textarea
                 id='right-side'
