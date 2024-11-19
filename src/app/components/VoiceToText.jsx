@@ -8,18 +8,17 @@ export default function VoiceToText() {
   const [isRecording, setIsRecording] = useState(false);
   const [languages, setLanguages] = useState([]);
   const [inputLanguage, setInputLanguage] = useState('en-US');
-  const [recognition, setRecognition] = useState(null);
-  
+  let SpeechRecognition = undefined;
+  let recognition = undefined;
+
   useEffect(() => {
     if (languages.length === 0) setLanguages(getLanguages);
+    SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
   });
   
   const toggleRecording = () => {
-    if (recognition === null) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      setRecognition(new SpeechRecognition());
-    }
-    if (recognition === undefined || isRecording === true) {
+    if (isRecording === true) {
       setIsRecording(false);
       recognition?.stop();
       return;
@@ -35,6 +34,7 @@ export default function VoiceToText() {
 
     recognition.onresult = (event) => {
       setText(event.results[0][0].transcript);
+      console.log("ddd", event.results[0][0].transcript);
     };
 
     recognition.start();
