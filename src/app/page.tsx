@@ -3,23 +3,22 @@
 import { useEffect, useState } from 'react';
 import VoiceToText from './components/VoiceToText';
 import TextToSpeech from './components/TextToSpeech';
-import { getLanguages, Language } from './utils/get-languages';
+import Translate from './components/Translate';
+import { useAITranslatorApi } from './utils/translate-helper';
 
 export default function Home() {
-    const [languages, setLanguages] = useState([] as Language[]);
     const [inputText, setInputText] = useState('');
     const [inputLanguage, setInputLanguage] = useState('en-US');
     const [outputText, setOutputText] = useState('');
     const [outputLanguage, setOutputLanguage] = useState('en-US');
 
-    useEffect(() => {
-        if (languages.length === 0) setLanguages(getLanguages);
-    });
-
-    function translate() {
-        setOutputText(inputText);
-        setOutputLanguage(inputLanguage);
-    }
+    const translate = async () => {
+        const translatedText = await useAITranslatorApi(
+            inputText,
+            outputLanguage
+        );
+        setOutputText(translatedText);
+    };
 
     return (
         <div>
@@ -41,21 +40,11 @@ export default function Home() {
                     setInputLanguage={setInputLanguage}
                 />
 
-                <div className='mid-side flex flex-col gap-5'>
-                    <select
-                        onChange={(event) => {
-                            setOutputLanguage(event.target.value);
-                        }}
-                        value={outputLanguage}
-                    >
-                        {languages.map((language) => (
-                            <option key={language.code} value={language.code}>
-                                {language.name} ({language.code})
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={translate}>Translate</button>
-                </div>
+                <Translate
+                    translate={translate}
+                    outputLanguage={outputLanguage}
+                    setOutputLanguage={setOutputLanguage}
+                />
 
                 <TextToSpeech
                     text={outputText}
