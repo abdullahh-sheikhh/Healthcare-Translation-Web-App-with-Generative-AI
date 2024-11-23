@@ -1,54 +1,64 @@
 'use client'; // This is a client component 👈🏽
 
 import { useState } from 'react';
+import Header from './components/Header';
+import Translate from './components/Translate';
 import VoiceToText from './components/VoiceToText';
 import TextToSpeech from './components/TextToSpeech';
-import Translate from './components/Translate';
 import { callAITranslatorApi } from './utils/translate-helper';
 
 export default function Home() {
-  const [inputText, setInputText] = useState('');
-  const [inputLanguage, setInputLanguage] = useState('en-US');
-  const [outputText, setOutputText] = useState('');
-  const [outputLanguage, setOutputLanguage] = useState('en-US');
+    const [inputText, setInputText] = useState('');
+    const [inputLanguage, setInputLanguage] = useState('en-US');
+    const [outputText, setOutputText] = useState('');
+    const [outputLanguage, setOutputLanguage] = useState('en-US');
 
-  const translate = async () => {
-    const translatedText = await callAITranslatorApi(inputText, outputLanguage);
-    setOutputText(translatedText);
-  };
+    const translate = async () => {
+        const translatedText = await callAITranslatorApi(
+            inputText,
+            outputLanguage
+        );
+        setOutputText(translatedText);
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 100);
+    };
 
-  return (
-    <div>
-      <header className='p-10 flex flex-col gap-5 justify-center items-center'>
-        <h1 className='text-2xl font-semibold text-gray-700'>
-          Healthcare Translation Web App with Generative AI
-        </h1>
-        <p className='text-md font-light text-gray-800'>
-          This is a web app that uses generative AI to translate healthcare
-          data.
-        </p>
-      </header>
+    const startOver = () => {
+        setInputText('');
+        setOutputText('');
+        setInputLanguage('en-US');
+        setOutputLanguage('en-US');
+    };
 
-      <div className='flex gap-10 justify-evenly items-center mt-10'>
-        <VoiceToText
-          text={inputText}
-          setText={setInputText}
-          inputLanguage={inputLanguage}
-          setInputLanguage={setInputLanguage}
-        />
+    return (
+        <div className='h-screen overflow-auto'>
+            <Header />
+            <div className='sm:flex gap-10 p-2 justify-evenly items-center mt-5 sm:mt-10'>
+                <VoiceToText
+                    text={inputText}
+                    setText={setInputText}
+                    inputLanguage={inputLanguage}
+                    setInputLanguage={setInputLanguage}
+                    startOver={startOver}
+                />
 
-        <Translate
-          translate={translate}
-          outputLanguage={outputLanguage}
-          setOutputLanguage={setOutputLanguage}
-        />
+                {inputText && !outputText && (
+                    <Translate
+                        translate={translate}
+                        outputLanguage={outputLanguage}
+                        setOutputLanguage={setOutputLanguage}
+                    />
+                )}
 
-        <TextToSpeech
-          text={outputText}
-          setText={setOutputText}
-          outputLanguage={outputLanguage}
-        />
-      </div>
-    </div>
-  );
+                {outputText && (
+                    <TextToSpeech
+                        text={outputText}
+                        setText={setOutputText}
+                        outputLanguage={outputLanguage}
+                    />
+                )}
+            </div>
+        </div>
+    );
 }
