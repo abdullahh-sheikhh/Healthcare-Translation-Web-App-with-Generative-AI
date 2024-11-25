@@ -1,6 +1,6 @@
 'use client'; // This is a client component 👈🏽
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Header from './components/Header';
 import Translate from './components/Translate';
 import VoiceToText from './components/VoiceToText';

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { FaMicrophone } from 'react-icons/fa';
 import { getLanguages } from '../utils/get-languages';
 import BouncingLoader from '../assets/BouncingLoader';
-import axios from 'axios';
 
 export default function VoiceToText({
     text,
