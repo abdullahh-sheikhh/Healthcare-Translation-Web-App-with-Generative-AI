@@ -7,7 +7,7 @@ import VoiceToText from './components/VoiceToText';
 import TextToSpeech from './components/TextToSpeech';
 import { callAITranslatorApi } from './utils/translate-helper';
 
-export default function Home({ props }: { props: { grocApiKey: string } }) {
+export default function Home() {
     const [inputText, setInputText] = useState('');
     const [inputLanguage, setInputLanguage] = useState('en-US');
     const [outputText, setOutputText] = useState('');
