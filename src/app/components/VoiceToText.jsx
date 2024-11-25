@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FaMicrophone } from 'react-icons/fa';
 import { getLanguages } from '../utils/get-languages';
 import BouncingLoader from '../assets/BouncingLoader';
+import axios from 'axios';
 
 export default function VoiceToText({
     text,
@@ -43,7 +44,6 @@ export default function VoiceToText({
 
         recognition.onresult = (event) => {
             setText(event.results[0][0].transcript);
-            console.log('ddd', event.results[0][0].transcript);
             setHasRecorded(true);
             setIsRecording(false);
         };
@@ -94,6 +94,7 @@ export default function VoiceToText({
             {!hasRecorded && (
                 <button
                     onClick={toggleRecording}
+                    disabled={isRecording}
                     className='rounded-full bg-gray-300 p-2 flex items-center justify-center hover:bg-gray-400'
                     style={{
                         backgroundColor: isRecording ? 'red' : '',

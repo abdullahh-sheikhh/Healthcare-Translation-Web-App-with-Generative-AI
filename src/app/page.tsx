@@ -1,13 +1,13 @@
 'use client'; // This is a client component 👈🏽
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Translate from './components/Translate';
 import VoiceToText from './components/VoiceToText';
 import TextToSpeech from './components/TextToSpeech';
 import { callAITranslatorApi } from './utils/translate-helper';
 
-export default function Home() {
+export default function Home({ props }: { props: { grocApiKey: string } }) {
     const [inputText, setInputText] = useState('');
     const [inputLanguage, setInputLanguage] = useState('en-US');
     const [outputText, setOutputText] = useState('');

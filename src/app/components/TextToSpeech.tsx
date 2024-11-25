@@ -44,7 +44,6 @@ export default function TextToSpeech({
             <h2>Output</h2>
             <textarea
                 style={{ resize: 'none' }}
-                id='right-side'
                 rows={10}
                 cols={40}
                 placeholder='Type something to speak...'

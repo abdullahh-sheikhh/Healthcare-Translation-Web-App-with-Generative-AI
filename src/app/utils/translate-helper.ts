@@ -5,8 +5,9 @@ export const callAITranslatorApi = async (
     targetLanguage: string
 ): Promise<string> => {
     try {
-        const grocApiKey =
-            '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';
+        const grocApiKey = await axios
+            .get('/api/')
+            .then((res) => res.data.grocApiKey);
         const headers = {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${grocApiKey}`,
@@ -18,7 +19,7 @@ export const callAITranslatorApi = async (
                 messages: [
                     {
                         role: 'system',
-                        content: `You are a healthcare translator. Translate the given text into ${targetLanguage}. Pay special attention to medical words. User will now only input text to translated, just reply with accurate translation. You should never reply anything other than translation, not even a greeting or explanation. Just pure and simple translated text.`,
+                        content: `You are a healthcare translator. Translate the given text into ${targetLanguage}. Pay special attention to medical words. Just provide the accurate translated text and nothing else at all.`,
                     },
                     {
                         role: 'user',
